@@ -1,40 +1,60 @@
-{ "data" : [
-  { "model": "Personne", "data": { "nom": "John Doe" } },
-  {
-    "model": "Patrimoine",
-    "data": {
-      "possesseur": { "nom": "John Doe" },
-      "possessions": [
-        {
-          "possesseur": { "nom": "John Doe" },
-          "libelle": "MacBook Pro",
-          "valeur": 4000000,
-          "dateDebut": "2023-12-25T00:00:00.000Z",
-          "dateFin": null,
-          "tauxAmortissement": 5
-        },
-        {
-          "possesseur": { "nom": "John Doe" },
-          "libelle": "Alternance",
-          "valeur": 0,
-          "dateDebut": "2022-12-31T21:00:00.000Z",
-          "dateFin": null,
-          "tauxAmortissement": null,
-          "jour": 1,
-          "valeurConstante": 500000
-        },
-        {
-          "possesseur": { "nom": "John Doe" },
-          "libelle": "Survie",
-          "valeur": 0,
-          "dateDebut": "2022-12-31T21:00:00.000Z",
-          "dateFin": null,
-          "tauxAmortissement": null,
-          "jour": 2,
-          "valeurConstante": -300000
-        }
-      ]
+{
+  "data": [
+    {
+      "model": "Patrimoine",
+      "data": {
+        "possessions": [
+          {
+            "libelle": "moto",
+            "valeur": "4500",
+            "dateDebut": "2024-08-29",
+            "dateFin": "2024-08-31",
+            "tauxAmortissement": "2"
+          },
+          {
+            "libelle": "iphone14",
+            "valeur": "45000",
+            "dateDebut": "2024-08-24",
+            "dateFin": "",
+            "tauxAmortissement": "3"
+          },
+          {
+            "libelle": "chocolat",
+            "valeur": "1200",
+            "dateDebut": "2024-08-30",
+            "dateFin": "",
+            "tauxAmortissement": "3"
+          },
+          {
+            "libelle": "voiture",
+            "valeur": "2000",
+            "dateDebut": "2024-08-30",
+            "dateFin": "",
+            "tauxAmortissement": "2"
+          },
+          {
+            "libelle": "gouté",
+            "valeur": "1200",
+            "dateDebut": "2024-08-31",
+            "dateFin": "",
+            "tauxAmortissement": "3"
+          },
+          {
+            "libelle": "redmi13",
+            "valeur": "95000",
+            "dateDebut": "2024-08-30",
+            "dateFin": "",
+            "tauxAmortissement": "6"
+          },
+          {
+            "libelle": "nem",
+            "valeur": "3200",
+            "dateDebut": "2024-08-07",
+            "dateFin": "",
+            "tauxAmortissement": "5"
+          }
+        ]
+      }
     }
-  }
-]
+  ]
 }
