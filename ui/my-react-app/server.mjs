@@ -71,7 +71,7 @@ app.post('/api/possessions/:libelle', (req, res) => {
     const libelle = req.params.libelle;
     const { libelle: newLibelle, dateFin } = req.body;
 
-    // Logique pour trouver et mettre à jour la possession
+
     const possession = possessions.find(p => p.libelle === libelle);
     if (!possession) {
         return res.status(404).json({ error: "Possession non trouvée" });
