@@ -10,7 +10,7 @@ function App() {
     return (
         <Router>
             <CustomNavbar />
-            <div className="container mt-5">
+            <div className="container ">
 
             <Routes>
                 <Route path="/" element={<HomePage />} />

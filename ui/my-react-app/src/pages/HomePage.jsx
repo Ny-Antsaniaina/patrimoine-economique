@@ -7,7 +7,7 @@ const HomePage = () => {
 
     return (
         <Container className="d-flex flex-column justify-content-center align-items-center vh-100">
-            <div className="text-center bg-transparent">
+            <div className="text-center bg-transparent h-75" >
                 <h1 className="display-3 mb-4 font-weight-bold text-primary">
                     Gestion de Patrimoine
                 </h1>

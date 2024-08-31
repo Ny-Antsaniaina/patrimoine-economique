@@ -35,7 +35,7 @@ const readData = () => {
     });
 };
 
-// Route pour obtenir les possessions
+
 app.get('/api/possessions', async (req, res) => {
     try {
         const data = await readData();
@@ -132,7 +132,7 @@ app.put('/api/possessions/:libelle/close', (req, res) => {
     const { libelle } = req.params;
     const { dateFin } = req.body;
 
-    // Utiliser le chemin absolu vers data.json
+
     const dataFilePath = path.join(__dirname, 'public/data/data.json');
 
     fs.readFile(dataFilePath, 'utf-8', (err, data) => {

@@ -15,7 +15,7 @@ const LineChart = ({ data }) => {
                 label: 'Valeur des Possessions',
                 data: values,
                 fill: false,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(75, 192, 198, 0.4)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 tension: 0.1,
             },

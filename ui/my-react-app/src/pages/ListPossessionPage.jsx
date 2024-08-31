@@ -62,31 +62,6 @@ const ListPossessionPage = () => {
         setTotalValue(total);
     };
 
-    // const handleUpdate = async (libelle) => {
-    //     try {
-    //
-    //
-    //         const updatedData = {
-    //
-    //             libelle: setNouvelleLibelle,
-    //             dateFin: setNouvelleDateFin,
-    //
-    //         };
-    //
-    //         const response = await axios.put(`http://localhost:3000/api/possessions/${libelle}/update`, updatedData);
-    //
-    //         if (response.status === 200) {
-    //             console.log('Possession mise à jour avec succès');
-    //
-    //         } else {
-    //             console.error('Erreur lors de la mise à jour des données:', response);
-    //             setError('Erreur lors de la mise à jour des données');
-    //         }
-    //     } catch (error) {
-    //         console.error('Erreur lors du chargement des données:', error);
-    //         setError('Erreur lors du chargement des données');
-    //     }
-    // };
 
     const handleUpdate = (libelle) =>{
         navigate(`http://localhost:3000/possessions/${libelle}/update`);
@@ -116,13 +91,14 @@ const ListPossessionPage = () => {
 
     return (
         <div className="container mt-5">
-            <h1 className="display-4 text-center">Liste des Possessions</h1>
-            <Table className='table table-dark table-hover table-striped mt-4'>
+            <h1 className="display-4 text-center mb-4">Liste des Possessions</h1>
+
+            <Table responsive="sm" className='table table-dark table-hover table-striped mt-4'>
                 <thead>
                 <tr>
                     <th>Libelle</th>
                     <th>Valeur Initiale</th>
-                    <th>Date Debut</th>
+                    <th>Date Début</th>
                     <th>Date Fin</th>
                     <th>Amortissement</th>
                     <th>Valeur Actuelle</th>
@@ -139,34 +115,31 @@ const ListPossessionPage = () => {
                         <td>{possession.tauxAmortissement}</td>
                         <td>{calculateValeurActuelle(possession, selectedDate).toFixed(2)}</td>
                         <td>
-                            {/*<Button className="btn btn-warning mx-1"*/}
-                            {/*        onClick={() => handleUpdate(possession.libelle)}>Modifier</Button>*/}
-
                             <Link to={`/possessions/${possession.libelle}/update`} className="btn btn-warning mx-1">
                                 Modifier
                             </Link>
-
-                            <Button className="btn btn-danger mx-1"
-                                    onClick={() => handleClose(possession.libelle)}>Clôturer</Button>
+                            <Button className="btn btn-danger mx-1" onClick={() => handleClose(possession.libelle)}>
+                                Clôturer
+                            </Button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </Table>
-            <div className="mb-3">
-                <label className="form-label">Sélectionner la date</label>
+
+            <div className="d-flex flex-column align-items-center mt-4">
+                <label className="form-label mb-2">Sélectionner la date</label>
                 <input
                     type="date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    className="form-control"
+                    className="form-control mb-3"
                 />
+                <Button className="btn btn-success w-25" onClick={handleCalculate}>
+                    Calculer la Valeur Totale
+                </Button>
+                <h3 className="mt-3">Valeur Totale du Patrimoine: {totalValue.toFixed(2)} Ar</h3>
             </div>
-            <Button className="mt-2 bg-success w-25" onClick={handleCalculate}>
-                Calculer la Valeur Totale
-            </Button>
-            <h3>Valeur Totale du Patrimoine: {totalValue.toFixed(2)}  Ar</h3>
-
         </div>
 
     );
