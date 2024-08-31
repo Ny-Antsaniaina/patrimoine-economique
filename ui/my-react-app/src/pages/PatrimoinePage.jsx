@@ -1,76 +1,96 @@
 import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import LineChart from '../components/LineChart';
+import { Form, Button } from 'react-bootstrap';
 
 const PatrimoinePage = () => {
+    const [data, setData] = useState([]);
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
-    const [jour, setJour] = useState('');
-    const [chartData, setChartData] = useState({});
+    const [selectedJour, setSelectedJour] = useState('');
 
-    const fetchChartData = () => {
-        axios.post('http://localhost:3000/api/patrimoine/valeur', { dateDebut, dateFin, jour })
-            .then(response => {
-                const { labels, data } = response.data;
-                setChartData({
-                    labels,
-                    datasets: [
-                        {
-                            label: 'Valeur du Patrimoine',
-                            data,
-                            fill: false,
-                            backgroundColor: 'rgba(75,192,192,1)',
-                            borderColor: 'rgba(75,192,192,1)',
-                        },
-                    ],
-                });
-            })
-            .catch(error => console.error('Erreur lors de la récupération des données du graphique', error));
+    const calculateValeurActuelle = (possession, date) => {
+        const dateDebut = new Date(possession.dateDebut);
+        const dateActuelle = new Date(date);
+
+        const differenceDate = {
+            year: dateActuelle.getFullYear() - dateDebut.getFullYear(),
+            month: dateActuelle.getMonth() - dateDebut.getMonth(),
+            day: dateActuelle.getDate() - dateDebut.getDate(),
+        };
+        let raison = differenceDate.year + differenceDate.month / 12 + differenceDate.day / 365;
+
+        return possession.valeur - possession.valeur * (raison * possession.tauxAmortissement / 100);
+    };
+
+    const handleValidate = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/possessions');
+            const result = await response.json();
+            const possessions = result.data[0].data.possessions;
+
+            const startDate = new Date(dateDebut);
+            const endDate = new Date(dateFin);
+
+            const filteredData = possessions.map(possession => {
+                const possessionStartDate = new Date(possession.dateDebut);
+                const possessionEndDate = possession.dateFin ? new Date(possession.dateFin) : new Date();
+                let dates = [];
+
+                let currentDate = startDate > possessionStartDate ? startDate : possessionStartDate;
+
+                while (currentDate <= endDate && currentDate <= possessionEndDate) {
+                    dates.push({
+                        date: currentDate.toLocaleDateString(),
+                        valeur: calculateValeurActuelle(possession, currentDate.toISOString().split('T')[0]),
+                    });
+
+                    // Increment date by the selected period (daily or weekly)
+                    currentDate.setDate(currentDate.getDate() + (selectedJour === 'Week' ? 7 : 1));
+                }
+
+                return dates;
+            });
+
+            const formattedData = filteredData.flat();
+            setData(formattedData);
+        } catch (error) {
+            console.error('Erreur lors de la récupération des données', error);
+        }
     };
 
     return (
         <div className="container mt-5">
-            <h1 className="display-4 text-center">Patrimoine</h1>
-            <Form className="mt-4">
-                <Form.Group controlId="formDateDebut">
-                    <Form.Label>Date de Début</Form.Label>
+            <h1 className="display-4 text-center">Graphique de Patrimoine</h1>
+            <Form className="d-flex justify-content-center mb-4">
+                <Form.Group className="mx-2">
+                    <Form.Label>Date Début</Form.Label>
                     <Form.Control
                         type="date"
                         value={dateDebut}
                         onChange={(e) => setDateDebut(e.target.value)}
                     />
                 </Form.Group>
-
-                <Form.Group controlId="formDateFin" className="mt-3">
-                    <Form.Label>Date de Fin</Form.Label>
+                <Form.Group className="mx-2">
+                    <Form.Label>Date Fin</Form.Label>
                     <Form.Control
                         type="date"
                         value={dateFin}
                         onChange={(e) => setDateFin(e.target.value)}
                     />
                 </Form.Group>
-
-                <Form.Group controlId="formJour" className="mt-3">
+                <Form.Group className="mx-2">
                     <Form.Label>Jour</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Entrez le jour"
-                        value={jour}
-                        onChange={(e) => setJour(e.target.value)}
-                    />
+                    <Form.Select value={selectedJour} onChange={(e) => setSelectedJour(e.target.value)}>
+                        <option value="">Sélectionner</option>
+                        <option value="Day">Jour</option>
+                        <option value="Week">Semaine</option>
+                    </Form.Select>
                 </Form.Group>
-
-                <Button className="mt-4" variant="primary" onClick={fetchChartData}>
+                <Button className="align-self-end mx-2" onClick={handleValidate}>
                     Valider
                 </Button>
             </Form>
-
-            {chartData.labels && (
-                <div className="mt-5">
-                    <Line data={chartData} />
-                </div>
-            )}
+            <LineChart data={data} />
         </div>
     );
 };
