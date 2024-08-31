@@ -10,28 +10,19 @@ const ListPossessionPage = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
     const [totalValue, setTotalValue] = useState(0);
     const navigate = useNavigate();
-    const [error, setError] = useState('')
-    // useEffect(() => {
-    //     axios.get('/data/data.json')
-    //         .then(response => {
-    //             const patrimoine = response.data.data.find(item => item.model === "Patrimoine");
-    //             if (patrimoine && patrimoine.data && patrimoine.data.possessions) {
-    //                 setPossessions(patrimoine.data.possessions);
-    //             } else {
-    //                 console.error("Données incorrectes");
-    //             }
-    //         })
-    //         .catch(error => console.error(error));
-    // }, []);
+    const [error, setError] = useState('');
+    const [nouvelleLibelle , setNouvelleLibelle] = useState('');
+    const [nouvelleDateFin, setNouvelleDateFin] = useState('');
 
     useEffect(() => {
         const fetchPossessions = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/api/possessions');
-                // Accède correctement aux possessions en tenant compte de la structure imbriquée
-                const data = response.data.data; // Accède au tableau 'data'
+
+                const data = response.data.data;
+
                 if (Array.isArray(data) && data.length > 0) {
-                    const possessions = data[0].data.possessions; // Accède aux possessions
+                    const possessions = data[0].data.possessions;
                     if (Array.isArray(possessions)) {
                         setPossessions(possessions);
                     } else {
@@ -71,25 +62,54 @@ const ListPossessionPage = () => {
         setTotalValue(total);
     };
 
-    const handleUpdate = (libelle) => {
-        navigate(`/possessions/${libelle}/update`);
-    };
+    // const handleUpdate = async (libelle) => {
+    //     try {
+    //
+    //
+    //         const updatedData = {
+    //
+    //             libelle: setNouvelleLibelle,
+    //             dateFin: setNouvelleDateFin,
+    //
+    //         };
+    //
+    //         const response = await axios.put(`http://localhost:3000/api/possessions/${libelle}/update`, updatedData);
+    //
+    //         if (response.status === 200) {
+    //             console.log('Possession mise à jour avec succès');
+    //
+    //         } else {
+    //             console.error('Erreur lors de la mise à jour des données:', response);
+    //             setError('Erreur lors de la mise à jour des données');
+    //         }
+    //     } catch (error) {
+    //         console.error('Erreur lors du chargement des données:', error);
+    //         setError('Erreur lors du chargement des données');
+    //     }
+    // };
+
+    const handleUpdate = (libelle) =>{
+        navigate(`http://localhost:3000/possessions/${libelle}/update`);
+    }
 
     const handleClose = async (libelle) => {
         const dateFin = new Date().toISOString().split("T")[0];
         try {
+
             await axios.put(`http://localhost:3000/api/possessions/${libelle}/close`, { dateFin });
-            // Optionnel: rafraîchir les possessions après la clôture
+
+
             const response = await axios.get('http://localhost:3000/api/possessions');
             const data = response.data.data;
+
             if (Array.isArray(data) && data.length > 0) {
-                const possessions = data[0].data.possessions;
-                if (Array.isArray(possessions)) {
-                    setPossessions(possessions);
+                const patrimoine = data.find(item => item.model === 'Patrimoine');
+                if (patrimoine && patrimoine.data && Array.isArray(patrimoine.data.possessions)) {
+                    setPossessions(patrimoine.data.possessions);
                 }
             }
         } catch (error) {
-            console.error('Erreur lors de la clôture de la possession', error);
+            console.error('Erreur lors de la clôture de la possession:', error);
             setError('Erreur lors de la clôture de la possession. Veuillez réessayer.');
         }
     };
@@ -119,8 +139,13 @@ const ListPossessionPage = () => {
                         <td>{possession.tauxAmortissement}</td>
                         <td>{calculateValeurActuelle(possession, selectedDate).toFixed(2)}</td>
                         <td>
-                            <Button className="btn btn-warning mx-1"
-                                    onClick={() => handleUpdate(possession.libelle)}>Modifier</Button>
+                            {/*<Button className="btn btn-warning mx-1"*/}
+                            {/*        onClick={() => handleUpdate(possession.libelle)}>Modifier</Button>*/}
+
+                            <Link to={`/possessions/${possession.libelle}/update`} className="btn btn-warning mx-1">
+                                Modifier
+                            </Link>
+
                             <Button className="btn btn-danger mx-1"
                                     onClick={() => handleClose(possession.libelle)}>Clôturer</Button>
                         </td>
@@ -140,13 +165,8 @@ const ListPossessionPage = () => {
             <Button className="mt-2 bg-success w-25" onClick={handleCalculate}>
                 Calculer la Valeur Totale
             </Button>
-            <h3>Valeur Totale du Patrimoine: {totalValue.toFixed(2)}</h3>
-            <div>
-                <Button as={Link} to="/possessions/create" variant="success" className="mt-3">
-                    Créer une Nouvelle Possession
-                </Button>
+            <h3>Valeur Totale du Patrimoine: {totalValue.toFixed(2)}  Ar</h3>
 
-            </div>
         </div>
 
     );
