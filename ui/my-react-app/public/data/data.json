@@ -5,7 +5,7 @@
       "data": {
         "possessions": [
           {
-            "libelle": "moto",
+            "libelle": "jog99",
             "valeur": "4500",
             "dateDebut": "2024-08-29",
             "dateFin": "2024-08-31",
@@ -15,43 +15,85 @@
             "libelle": "iphone14",
             "valeur": "45000",
             "dateDebut": "2024-08-24",
-            "dateFin": "",
+            "dateFin": "2024-08-31",
             "tauxAmortissement": "3"
           },
           {
             "libelle": "chocolat",
             "valeur": "1200",
             "dateDebut": "2024-08-30",
-            "dateFin": "",
+            "dateFin": "2024-08-30",
             "tauxAmortissement": "3"
           },
           {
             "libelle": "voiture",
             "valeur": "2000",
             "dateDebut": "2024-08-30",
-            "dateFin": "",
+            "dateFin": "2024-08-31",
             "tauxAmortissement": "2"
           },
           {
             "libelle": "gouté",
             "valeur": "1200",
             "dateDebut": "2024-08-31",
-            "dateFin": "",
+            "dateFin": "2024-08-31",
             "tauxAmortissement": "3"
           },
           {
             "libelle": "redmi13",
             "valeur": "95000",
             "dateDebut": "2024-08-30",
-            "dateFin": "",
+            "dateFin": "2024-08-31",
             "tauxAmortissement": "6"
           },
           {
             "libelle": "nem",
             "valeur": "3200",
             "dateDebut": "2024-08-07",
-            "dateFin": "",
+            "dateFin": "2024-08-30",
             "tauxAmortissement": "5"
+          },
+          {
+            "libelle": "carotte",
+            "valeur": "2100",
+            "dateDebut": "2024-09-06",
+            "dateFin": "2024-09-06",
+            "tauxAmortissement": "2"
+          },
+          {
+            "libelle": "salon",
+            "valeur": "25000",
+            "dateDebut": "2024-09-07",
+            "dateFin": "2024-08-30",
+            "tauxAmortissement": "5"
+          },
+          {
+            "libelle": "iphone15",
+            "valeur": "3",
+            "dateDebut": "0020-06-12",
+            "dateFin": "2024-08-31",
+            "tauxAmortissement": "6"
+          },
+          {
+            "libelle": "laptop",
+            "valeur": "12000",
+            "dateDebut": "2024-09-06",
+            "dateFin": "",
+            "tauxAmortissement": "6"
+          },
+          {
+            "libelle": "iphone2",
+            "valeur": "5012222",
+            "dateDebut": "2024-09-06",
+            "dateFin": "2024-08-31",
+            "tauxAmortissement": "0"
+          },
+          {
+            "libelle": "iphonebe",
+            "valeur": "2800000",
+            "dateDebut": "2024-08-22",
+            "dateFin": "2024-08-31",
+            "tauxAmortissement": "4"
           }
         ]
       }

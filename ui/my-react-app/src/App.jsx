@@ -5,10 +5,13 @@ import ListPossessionPage from './pages/ListPossessionPage';
 import CreatePossessionPage from './pages/CreatePossessionPage';
 import PatrimoinePage from './pages/PatrimoinePage';
 import UpdatePossessionPage from './pages/UpdatePossessionPage';
-
+import CustomNavbar from './components/Navbar';
 function App() {
     return (
         <Router>
+            <CustomNavbar />
+            <div className="container mt-5">
+
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/possessions" element={<ListPossessionPage />} />
@@ -16,6 +19,7 @@ function App() {
                 <Route path="/patrimoine" element={<PatrimoinePage />} />
                 <Route path="/possessions/:libelle/update" element={<UpdatePossessionPage />} />
             </Routes>
+            </div>
         </Router>
     );
 }

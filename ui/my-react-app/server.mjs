@@ -4,22 +4,21 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Initialisation de l'application Express
 const app = express();
 const port = 3000;
 
-// Configuration de CORS pour permettre les requêtes depuis le frontend
+
 app.use(cors());
 
-// Middleware pour parser le JSON
+
 app.use(express.json());
 
-// Chemin pour accéder au fichier data.json
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, 'public', 'data', 'data.json');
 
-// Fonction pour lire les données du fichier JSON
+
 const readData = () => {
     return new Promise((resolve, reject) => {
         fs.readFile(dataPath, 'utf8', (err, data) => {
@@ -47,7 +46,7 @@ app.get('/api/possessions', async (req, res) => {
     }
 });
 
-// Route pour créer une nouvelle possession
+
 app.post('/api/possessions', async (req, res) => {
     try {
         const newPossession = req.body;
@@ -81,47 +80,99 @@ app.post('/api/possessions/:libelle', (req, res) => {
     possession.libelle = newLibelle;
     possession.dateFin = dateFin;
 
-    // Sauvegarde des modifications (par exemple, en écrivant dans un fichier JSON ou en mettant à jour une base de données)
 
     res.status(200).json({ message: "Possession mise à jour avec succès" });
 });
 
-
-// Route pour clore une possession
-app.put('/api/possessions/:libelle', (req, res) => {
+app.put('/api/possessions/:libelle/update', (req, res) => {
     const { libelle } = req.params;
-    const { dateFin } = req.body;
+    const updatedData = req.body;
 
-    fs.readFile(path.join(__dirname, 'data/data.json'), 'utf-8', (err, data) => {
+    const dataFilePath = path.join(__dirname,'public','data','data.json');
+
+    fs.readFile(dataFilePath, 'utf-8', (err, data) => {
         if (err) {
-            console.error(err);
+            console.error('Erreur lors de la lecture du fichier:', err);
             return res.status(500).json({ error: 'Erreur lors de la lecture des données' });
         }
 
-        let jsonData = JSON.parse(data);
+        let jsonData;
+        try {
+            jsonData = JSON.parse(data);
+        } catch (parseErr) {
+            console.error('Erreur lors du parsing du JSON:', parseErr);
+            return res.status(500).json({ error: 'Erreur lors du parsing des données' });
+        }
+        let possessions = jsonData.data[0].data.possessions;
+
+
+        let index = possessions.findIndex(p => p.libelle === libelle);
+
+        if (index === -1) {
+            return res.status(404).json({ error: 'Possession non trouvée.' });
+        }
+
+        possessions[index] = { ...possessions[index], ...updatedData };
+
+
+        fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2), 'utf-8', (err) => {
+            if (err) {
+                console.error("Erreur lors de l'écriture du fichier:", err);
+                return res.status(500).json({ error: 'Erreur lors de la sauvegarde des données' });
+            }
+
+            res.status(200).json({ message: 'Possession mise à jour avec succès.' });
+        });
+    });
+});
+
+
+
+app.put('/api/possessions/:libelle/close', (req, res) => {
+    const { libelle } = req.params;
+    const { dateFin } = req.body;
+
+    // Utiliser le chemin absolu vers data.json
+    const dataFilePath = path.join(__dirname, 'public/data/data.json');
+
+    fs.readFile(dataFilePath, 'utf-8', (err, data) => {
+        if (err) {
+            console.error('Erreur lors de la lecture du fichier:', err);
+            return res.status(500).json({ error: 'Erreur lors de la lecture des données' });
+        }
+
+        let jsonData;
+        try {
+            jsonData = JSON.parse(data);
+        } catch (parseErr) {
+            console.error('Erreur lors du parsing du JSON:', parseErr);
+            return res.status(500).json({ error: 'Erreur lors du parsing des données' });
+        }
+
         const patrimoine = jsonData.data.find(item => item.model === 'Patrimoine');
         if (patrimoine && patrimoine.data && patrimoine.data.possessions) {
             const possession = patrimoine.data.possessions.find(p => p.libelle === libelle);
             if (possession) {
                 possession.dateFin = dateFin;
-                fs.writeFile(path.join(__dirname, 'data/data.json'), JSON.stringify(jsonData, null, 2), 'utf-8', (err) => {
+                fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2), 'utf-8', (err) => {
                     if (err) {
-                        console.error(err);
+                        console.error('Erreur lors de la mise à jour des données:', err);
                         return res.status(500).json({ error: 'Erreur lors de la mise à jour des données' });
                     }
                     res.json({ message: 'Possession mise à jour avec succès' });
                 });
             } else {
+                console.error('Possession non trouvée');
                 res.status(404).json({ error: 'Possession non trouvée' });
             }
         } else {
+            console.error('Patrimoine non trouvé');
             res.status(404).json({ error: 'Patrimoine non trouvé' });
         }
     });
 });
 
 
-// Démarrer le serveur
 app.listen(port, () => {
     console.log(`Serveur démarré sur le port ${port}`);
 });
