@@ -1,6 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import LineChart from '../components/LineChart';
 import { Form, Button } from 'react-bootstrap';
+import Possession from '../../models/possessions/Possession.js';
+import Argent from '../../models/possessions/Argent.js';
+import BienMateriel from '../../models/possessions/BienMateriel.js';
+import Flux from '../../models/possessions/Flux.js';
+import Patrimoine from '../../models/Patrimoine.js';
+import Personne from '../../models/Personne.js';
 
 const PatrimoinePage = () => {
     const [data, setData] = useState([]);
@@ -8,51 +15,44 @@ const PatrimoinePage = () => {
     const [dateFin, setDateFin] = useState('');
     const [selectedJour, setSelectedJour] = useState('');
 
-    const calculateValeurActuelle = (possession, date) => {
-        const dateDebut = new Date(possession.dateDebut);
-        const dateActuelle = new Date(date);
-
-        const differenceDate = {
-            year: dateActuelle.getFullYear() - dateDebut.getFullYear(),
-            month: dateActuelle.getMonth() - dateDebut.getMonth(),
-            day: dateActuelle.getDate() - dateDebut.getDate(),
-        };
-        let raison = differenceDate.year + differenceDate.month / 12 + differenceDate.day / 365;
-
-        return possession.valeur - possession.valeur * (raison * possession.tauxAmortissement / 100);
-    };
-
     const handleValidate = async () => {
         try {
             const response = await fetch('http://localhost:3000/api/possessions');
             const result = await response.json();
-            const possessions = result.data[0].data.possessions;
+            const possessionsData = result.data[0].data.possessions;
+
+            const possesseur = new Personne("Nom de la personne");
+
+            const possessions = possessionsData.map(data => {
+                if (data.type === "Argent") {
+                    return new Argent(possesseur, data.libelle, data.valeur, new Date(data.dateDebut), new Date(data.dateFin), data.tauxAmortissement, data.type);
+                } else if (data.type === "BienMateriel") {
+                    return new BienMateriel(possesseur, data.libelle, data.valeur, new Date(data.dateDebut), new Date(data.dateFin), data.tauxAmortissement);
+                } else if (data.type === "Flux") {
+                    return new Flux(possesseur, data.libelle, data.valeur, new Date(data.dateDebut), new Date(data.dateFin), data.tauxAmortissement, selectedJour);
+                } else {
+                    return new Possession(possesseur, data.libelle, data.valeur, new Date(data.dateDebut), new Date(data.dateFin), data.tauxAmortissement);
+                }
+            });
+
+            const patrimoine = new Patrimoine(possesseur, possessions);
 
             const startDate = new Date(dateDebut);
             const endDate = new Date(dateFin);
 
-            const filteredData = possessions.map(possession => {
-                const possessionStartDate = new Date(possession.dateDebut);
-                const possessionEndDate = possession.dateFin ? new Date(possession.dateFin) : new Date();
-                let dates = [];
+            let dates = [];
+            let currentDate = startDate;
 
-                let currentDate = startDate > possessionStartDate ? startDate : possessionStartDate;
+            while (currentDate <= endDate) {
+                dates.push({
+                    date: currentDate.toLocaleDateString(),
+                    valeur: patrimoine.getValeur(currentDate)
+                });
 
-                while (currentDate <= endDate && currentDate <= possessionEndDate) {
-                    dates.push({
-                        date: currentDate.toLocaleDateString(),
-                        valeur: calculateValeurActuelle(possession, currentDate.toISOString().split('T')[0]),
-                    });
+                currentDate.setDate(currentDate.getDate() + (selectedJour === 'Week' ? 7 : 1));
+            }
 
-                    // Increment date by the selected period (daily or weekly)
-                    currentDate.setDate(currentDate.getDate() + (selectedJour === 'Week' ? 7 : 1));
-                }
-
-                return dates;
-            });
-
-            const formattedData = filteredData.flat();
-            setData(formattedData);
+            setData(dates);
         } catch (error) {
             console.error('Erreur lors de la récupération des données', error);
         }
