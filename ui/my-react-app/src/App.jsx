@@ -12,13 +12,13 @@ function App() {
             <CustomNavbar />
             <div className="container ">
 
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/possessions" element={<ListPossessionPage />} />
-                <Route path="/possessions/create" element={<CreatePossessionPage />} />
-                <Route path="/patrimoine" element={<PatrimoinePage />} />
-                <Route path="/possessions/:libelle/update" element={<UpdatePossessionPage />} />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/possessions" element={<ListPossessionPage />} />
+                    <Route path="/possessions/create" element={<CreatePossessionPage />} />
+                    <Route path="/patrimoine" element={<PatrimoinePage />} />
+                    <Route path="/possessions/:libelle/update" element={<UpdatePossessionPage />} />
+                </Routes>
             </div>
         </Router>
     );

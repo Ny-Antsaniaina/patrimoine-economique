@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import LineChart from '../components/LineChart';
 import { Form, Button } from 'react-bootstrap';
-import Possession from '../../models/possessions/Possession.js';
-import Argent from '../../models/possessions/Argent.js';
-import BienMateriel from '../../models/possessions/BienMateriel.js';
-import Flux from '../../models/possessions/Flux.js';
-import Patrimoine from '../../models/Patrimoine.js';
-import Personne from '../../models/Personne.js';
+import Possession from '../../../../models/possessions/Possession.js';
+import Argent from '../../../../models/possessions/Argent.js';
+import BienMateriel from '../../../../models/possessions/BienMateriel.js';
+import Flux from '../../../../models/possessions/Flux.js';
+import Patrimoine from '../../../../models/Patrimoine.js';
+import Personne from '../../../../models/Personne.js';
 
 const PatrimoinePage = () => {
     const [data, setData] = useState([]);
