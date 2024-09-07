@@ -72,10 +72,24 @@
             "tauxAmortissement": 15
           },
           {
-            "libelle": "Samsung galaxy S23",
+            "libelle": "Samsung galaxy S29",
             "valeur": "1600000",
             "dateDebut": "2024-09-06",
+            "dateFin": "",
+            "tauxAmortissement": "10"
+          },
+          {
+            "libelle": "voiture",
+            "valeur": "16000",
+            "dateDebut": "2024-09-27",
             "dateFin": "2024-09-07",
+            "tauxAmortissement": "10"
+          },
+          {
+            "libelle": "laptop",
+            "valeur": "1399999",
+            "dateDebut": "2024-09-28",
+            "dateFin": "",
             "tauxAmortissement": "10"
           }
         ]

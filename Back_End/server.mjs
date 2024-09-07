@@ -16,7 +16,7 @@ app.use(express.json());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname,'..','ui','my-react-app','public', 'data', 'data.json');
+const dataPath = path.join(__dirname,'..','ui','public', 'data', 'data.json');
 
 
 const readData = () => {
