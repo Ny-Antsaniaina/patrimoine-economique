@@ -34,7 +34,7 @@
             "libelle": "Clothes",
             "valeur": 2000000,
             "dateDebut": "2020-01-01T00:00:00.000Z",
-            "dateFin": null,
+            "dateFin": "2024-09-07",
             "tauxAmortissement": 10
           },
           {
@@ -82,13 +82,41 @@
             "libelle": "voiture",
             "valeur": "16000",
             "dateDebut": "2024-09-27",
-            "dateFin": "2024-09-07",
+            "dateFin": "",
             "tauxAmortissement": "10"
           },
           {
-            "libelle": "laptop",
+            "libelle": "laptop 10",
             "valeur": "1399999",
             "dateDebut": "2024-09-28",
+            "dateFin": "",
+            "tauxAmortissement": "10"
+          },
+          {
+            "libelle": "ffffff",
+            "valeur": "4555",
+            "dateDebut": "2024-09-12",
+            "dateFin": "",
+            "tauxAmortissement": "10"
+          },
+          {
+            "libelle": "laptopyy",
+            "valeur": "24244",
+            "dateDebut": "2024-09-21",
+            "dateFin": "",
+            "tauxAmortissement": "1"
+          },
+          {
+            "libelle": "mmm",
+            "valeur": "20000",
+            "dateDebut": "2024-09-24",
+            "dateFin": "",
+            "tauxAmortissement": "1"
+          },
+          {
+            "libelle": "zaza",
+            "valeur": "14",
+            "dateDebut": "2024-09-27",
             "dateFin": "",
             "tauxAmortissement": "10"
           }
