@@ -1,10 +1,10 @@
 import { assert } from "chai"
 import { describe, it } from "mocha"
-import Flux from "../models/possessions/Flux.js"
-import Personne from "../models/Personne.js"
-import Possession from "../models/possessions/Possession.js"
-import Argent from '../models/possessions/Argent.js'
-import Patrimoine from "../models/Patrimoine.js"
+import Flux from "../Back_End/models/possessions/Flux.js"
+import Personne from "../Back_End/models/Personne.js"
+import Possession from "../Back_End/models/possessions/Possession.js"
+import Argent from '../Back_End/models/possessions/Argent.js'
+import Patrimoine from "../Back_End/models/Patrimoine.js"
 
 const TYPE_ARGENT = {
     Courant: "Courant",

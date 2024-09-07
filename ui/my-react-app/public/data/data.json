@@ -65,17 +65,17 @@
             "possesseur": {
               "nom": "John Doe"
             },
-            "libelle": "Redmi Note 9 (Lost)",
+            "libelle": "Redmi Note 9",
             "valeur": 800000,
             "dateDebut": "2022-12-29T00:00:00.000Z",
-            "dateFin": "2024-09-06",
+            "dateFin": "",
             "tauxAmortissement": 15
           },
           {
             "libelle": "Samsung galaxy S23",
             "valeur": "1600000",
-            "dateDebut": "2024-09-05",
-            "dateFin": "",
+            "dateDebut": "2024-09-06",
+            "dateFin": "2024-09-07",
             "tauxAmortissement": "10"
           }
         ]
